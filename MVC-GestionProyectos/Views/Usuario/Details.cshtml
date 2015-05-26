@@ -1,0 +1,99 @@
+﻿@using MVC_GestionProyectos.Controllers
+@using MVC_GestionProyectos.Models
+@using MVC_GestionProyectos.Seguridad
+@model MVC_GestionProyectos.Models.Usuario
+
+@{
+
+    var usr = User as PrincipalPersonalizado;
+
+   }
+
+<div>
+    <h3></h3>
+    <section class="content-header">
+        <h1>
+            Información personal
+            <small>@Model.nombre</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#">UI</a></li>
+            <li class="active">Icons</li>
+        </ol>
+    </section>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="col-sm-6">
+                    <img src="~/img/FotoPerfilesUsuario/@Model.foto" width="150" />
+                </div>
+                <div class="col-sm-6">
+                    <dl class="text-left">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.nombre)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.nombre)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.apellido)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.apellido)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.email)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.email)
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Habilidad):
+                </dt>
+                <dd>
+                    <ul class="Habilidad" style="width: 110px">
+                        @foreach (var h in Model.Habilidad)
+                        {
+                            <li disabled="disabled" id="@h.id">@h.nombre</li>
+                        }
+                    </ul>
+                </dd>
+            </div>
+            <div class="col-sm-4">
+                <dt>
+                    Proyectos:
+                </dt>
+                <dd>
+                    <ul>
+                        @foreach (var pr in ViewBag.MisProyectos)
+                        {
+                            <li>
+                                @pr.Proyecto |
+                                <a href="@Url.Action("Details", "Proyecto", new { id = @pr.idProyecto })">Detalle</a>
+
+                            </li>
+                        }
+                    </ul>
+                </dd>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<p>
+    @if (usr.MiCustomIdentity.id == Model.id)
+    { 
+        @Html.ActionLink("Editar mi perfil...", "Edit", new {id = Model.id})
+    }
+    @*@Html.ActionLink("Listado Completo", "Index") |*@
+</p>
+
+@*idUsuario
+idProyecto 
+idGrupo*@ 

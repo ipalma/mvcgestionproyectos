@@ -1,0 +1,162 @@
+﻿@using MVC_GestionProyectos.Models
+@using MVC_GestionProyectos.Seguridad
+@*using System.Security.Principal;*@
+@{
+
+    var usr = User as PrincipalPersonalizado;
+}
+
+
+<div class="sidebar-nav" id="menu">
+    <div class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <span class="visible-xs navbar-brand"><i class="fa fa-ils fa-2x"></i></span>
+        </div>
+        <div class="navbar-collapse collapse sidebar-navbar-collapse">
+            
+            
+            <aside>
+                
+                <div id="sidebar" class="nav-collapse " tabindex="5000" style="overflow: hidden; outline: none; margin-left: 0px;">
+                    <a href="@Url.Action("Index", "Home")"><div class="logo text-center hidden-xs"><i class="fa fa-ils fa-5x"></i></div></a>
+                    <ul class="sidebar-menu" id="nav-accordion" style="display: block;">
+
+                        <p class="text-center">
+                            
+
+                              @if (User.Identity.IsAuthenticated)
+                             {
+                               <a href="/Usuario/Details/@usr.MiCustomIdentity.id">
+                                <img class="img-circle" width="100" src="~/img/FotoPerfilesUsuario/@usr.MiCustomIdentity.foto" />
+                               </a>
+                              }
+                                else
+                              { <a href="#">
+                                 <img src="~/img/default.png" class="img-circle" width="60" />
+                                </a>
+                              }
+
+                            
+
+
+                            @*<a href="profile.html">
+
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <img class="img-circle" width="100" src="~/img/FotoPerfilesUsuario/@usr.MiCustomIdentity.foto" />
+                                }
+                                else
+                                {
+                                    <img src="~/img/foto-03.jpg" class="img-circle" width="60" />
+                                }
+
+                            </a>*@
+
+
+
+                        </p>
+                        <div class="text-center">
+                            @*@if (Session["usuarioLogeado"] != null)
+                            {
+                                Usuario u = (Usuario) Session["usuarioLogeado"];
+                                @Html.Label("* " + u.nombre + " "+ u.apellido + " *");
+                            }
+                            else
+                            {
+                                @Html.Label("No estas Logeado");
+                            }
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <h4>Bienvenido @User.Identity.Name</h4>
+                                <h4>correo: @usr.MiCustomIdentity.</h4>
+                                
+                            }*@
+
+                           @if (User.Identity.IsAuthenticated)
+                           {
+                               @*@Html.Label("@User.Identity.Name");*@
+                               <h4 style="background-color: lightgrey">@User.Identity.Name</h4>
+
+                                <a class="text-center" href='@Url.Action("LogOut", "LoginUsuario")'>
+                                    <i class="fa fa-sign-out text-center text-success"></i>
+                                    <span class="text-success"> Desconectar</span>
+                                </a>
+                           }
+                           else
+                           {
+                                @Html.Label("No estas Logeado");
+                           }
+                            
+                        </div>
+                        
+                        <li class="">
+                            <a class="" href='@Url.Action("Index", "Usuario")'>
+                                <i class="fa fa-users"></i>
+                                <span>USUARIOS</span>
+                            </a>
+                        </li>
+
+                        <li class="">
+                            <a class="" href='@Url.Action("Index", "Proyecto")'>
+                                <i class="fa fa-desktop"></i>
+                                <span>PROYECTOS</span>
+                            </a>                          
+                        </li>
+
+                        <li class="">
+                            <a class="" href='@Url.Action("ListaProyectosUsuario", "ProyectosUsuario")'>
+                                <i class="fa fa-desktop"></i>
+                                <span>MIS PROYECTOS</span>
+                            </a>
+                        </li>
+
+                        <li class="">
+                            <a href="" >
+                                <i class="fa fa-cogs"></i>
+                                <span>TAREAS</span>
+                            </a>
+                        </li>
+
+                        <li class="">
+                            <a href="">
+                                <i class="fa fa-tasks"></i>
+                                <span>FORMULARIOS</span>
+                            </a>
+                        </li>
+
+                        <li class="">
+                            <a href="" >
+                                <i class="fa fa-th"></i>
+                                <span>TABLAS</span>
+                            </a>
+                        </li>
+
+                        <li class="">
+                            <a href="">
+                                <i class=" fa fa-bar-chart-o"></i>
+                                <span>GRAFICOS</span>
+                            </a>
+                        </li>
+
+                        <li class="">
+                            <a href="">
+                                <i class="fa fa-star"></i>
+                                <span>EXTRAS</span>
+                            </a>
+                        </li>
+                        <br/>
+                        <p class="text-muted text-center" style="position: absolute; bottom: 0px;">&copy; @DateTime.Now.Year - Gestion De Proyectos</p>
+                    </ul>
+
+                </div>
+            </aside>
+            
+        </div><!--/.nav-collapse -->
+    </div>
+</div>

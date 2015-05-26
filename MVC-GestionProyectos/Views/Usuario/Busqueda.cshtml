@@ -1,0 +1,68 @@
+﻿@using (Html.BeginForm("Index", "Usuario", FormMethod.Post, new { ID = "FormBusqueda", onsubmit = "return limpiar()" }))
+
+{
+    @Html.AntiForgeryToken()
+    
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @*<div class="form-group">
+        <strong>Buscar por: </strong><br/>
+        <input type="radio" class=".paramBusqueda" value="nombre" name="parametro" />Nombre | 
+        <input type="radio" class=".paramBusqueda" value="apellido" name="parametro" />Apellido | 
+        <input type="radio" class=".paramBusqueda" value="email" name="parametro" />Email | 
+        <input type="radio" class=".paramBusqueda" value="Habilidad" name="parametro" />Habilidad<br/>
+        <input type="search" id="datoBusqueda" name="dato" placeholder="" />
+        <input type="submit" value="Buscar" class="btn btn-primary" />
+        <a class="btn btn-primary" href="@Url.Action("Index", "Usuario")">Mostrar Todos</a>
+    </div>*@
+    <div class="row">
+        <section class="col-md-4">
+            <div class=" box box-primary ">
+                <div class="box-header" data-toggle="tooltip" title="" data-original-title="Header tooltip">
+                    <h3 class="box-title">Buscar por:</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-primary btn-xs" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <!-- form start -->
+                <div class="box-body">
+                    <div class="checkbox">
+
+                        <input type="radio" class=".paramBusqueda" value="nombre" name="parametro" />
+                        <label for="">Nombre</label>
+                    </div>
+                    <div class="checkbox">
+
+                        <input type="radio" class=".paramBusqueda" value="apellido" name="parametro" />
+                        <label for="">Apellido</label>
+                    </div>
+                    <div class="checkbox">
+
+                        <input type="radio" class=".paramBusqueda" value="email" name="parametro" />
+                        <label for="">Email</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="radio" class=".paramBusqueda" value="Habilidad" name="parametro" />
+                        <label for="">Habilidad</label>
+                    </div>
+                </div><!-- /.box-body -->
+
+                <div class="box-footer">
+                    <h4 class="box-title"><input type="search" id="datoBusqueda" name="dato" placeholder="Buscar..." /></h4>
+                    <input type="submit" value="Buscar" class="btn btn-primary" /> &nbsp;
+                    <a class="btn btn-primary" href="@Url.Action("Index", "Usuario")">Mostrar Todos</a>&nbsp;
+                    @Html.ActionLink("Nuevo Usuario", "Alta")
+                </div>
+            </div>
+        </section>
+    </div>
+}
+
+        <script>
+            @*function limpiar() {
+        var x = $("#datoBusqueda").val();
+        if (x == "") {
+            window.Location.href(@Url.Action("Index", "Usuario"));
+        }
+        return true;
+    }*@
+        </script>

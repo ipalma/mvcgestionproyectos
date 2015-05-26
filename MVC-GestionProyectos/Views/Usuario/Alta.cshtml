@@ -1,0 +1,125 @@
+﻿@using MVC_GestionProyectos.Models
+@model MVC_GestionProyectos.Models.Usuario
+           
+<!-- iCheck for checkboxes and radio inputs -->
+<link href="~/Content/css/iCheck/all.css" rel="stylesheet" />
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<section class="content-header">
+    <h1>
+        Registrar 
+        <small>nuevo usuario</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-users"></i> Usuarios</a></li>
+        <li class="active">Nuevo usuario</li>
+    </ol>
+</section>
+
+    @using (Html.BeginForm("Alta", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+
+    <div class="panel-body">
+   
+            <div class="col-sm-4">
+                <div class="form-group">
+                    @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control", placeholder = "Nombre" } })
+                    @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.EditorFor(model => model.apellido, new { htmlAttributes = new { @class = "form-control", placeholder = "Apellido" } })
+                    @Html.ValidationMessageFor(model => model.apellido, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email" } })
+                    @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control", placeholder = "Password" } })
+                    @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <input type="file" name="foto" accept="image/*" value="" />
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="form-group">
+                    <div class="col-sm-6">
+                        <strong>Habilidades:</strong>
+                        <ul label="Habilidades" class=" pre-scrollable">
+                            @foreach (var h in ViewBag.ListadoHabilidades)
+                            {
+                                <li class="sin_estilo">
+                                    <input type="checkbox" id="@h.id" name="Habilidad" nombre="@h.nombre" value="@h.id" class="icheckbox_minimal" />
+                                    <span>@h.nombre</span>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="col-sm-6"  style="max-height: 200px;">
+                        <strong>añadir otras habilidades:</strong>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="nuevaHabilidad" placeholder="Nueva Habilidad">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" id="anadirHabilidad" type="button"><i class="glyphicon glyphicon-plus text-green"></i></button>
+                            </span>
+                        </div><!-- /input-group -->
+                        <ul id="nuevasHabilidades" name="nuevasHabilidades" style="max-height:170px; overflow-y: scroll">
+                            @*.....*@
+                        </ul>
+                        <script>
+                            (function () {
+                                $("#anadirHabilidad").click(function () {
+                                    var nh = $("#nuevaHabilidad").val().trim();
+                                    if (nh != "") {
+                                        $("#nuevasHabilidades").append("<li class='sin_estilo'><input type='checkbox' name='nuevaHabilidad'  value=" + nh + " class='icheckbox_minimal' checked='checked' /><span> " + nh + " </span></li>");
+                                        $("#nuevaHabilidad").val("");
+                                        $("#nuevaHabilidad").focus();
+                                    } else {
+                                        $("#nuevaHabilidad").val("");
+                                        $("#nuevaHabilidad").focus();
+                                    }
+                                })
+                            })();
+                        </script>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                    
+            </div>
+       
+    </div>
+        
+    <div class="panel-footer">
+        <div class="row">
+            <div class="col-sm-4 col-sm-offset-4">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <button type="submit" class="btn bg-light-blue btn-block">Registrar</button>
+                }
+                else
+                {
+                    <button type="submit" class="btn bg-light-blue btn-block">Registrarme</button>
+                }
+                
+            </div>
+        </div>
+            
+    </div>
+    }
+    @if (!User.Identity.IsAuthenticated)
+    {
+        @Html.ActionLink("Ya tengo una cuenta...", "Index")
+        <div class="margin text-center">
+            <span>Registrarme usando redes sociales</span>
+            <br/>
+            <button class="btn bg-light-blue btn-circle"><i class="fa fa-facebook"></i></button>
+            <button class="btn bg-aqua btn-circle"><i class="fa fa-twitter"></i></button>
+            <button class="btn bg-red btn-circle"><i class="fa fa-google-plus"></i></button>
+        </div>
+    }

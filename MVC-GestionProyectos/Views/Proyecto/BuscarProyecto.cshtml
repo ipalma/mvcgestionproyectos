@@ -1,0 +1,67 @@
+﻿@using System.Web.UI.WebControls
+@model IEnumerable<MVC_GestionProyectos.Models.Proyecto>
+
+@{
+    ViewBag.Title = "Proyectos";
+}
+
+<h2>Proyectos</h2>
+@Html.Partial("Busqueda")
+
+
+<div>
+    <i class="fa fa-magic fa-2x text-primary"></i>
+    @Html.ActionLink("Crear Nuevo Proyecto", "Alta")
+    <p></p>
+</div>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fechaInicio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fechaFin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.descripcion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fechaCreacion)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fechaInicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fechaFin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fechaCreacion)
+            </td>
+
+            <td>
+                <a href="@Url.Action("Edit", new { id = item.id })" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit fa-2x text-primary"></i></a>
+                <a href="@Url.Action("Details", new { id = item.id })" data-toggle="tooltip" data-placement="top" title="Detalle"><i class="fa fa-file-o fa-2x text-success"></i></a>
+                <a href="@Url.Action("Delete", new { id = item.id })" data-toggle="tooltip" data-placement="top" title="Eliminar Proyecto: @item.nombre"><i class="fa fa-times fa-2x text-danger"></i></a>
+            </td>
+        </tr>
+    }
+
+</table>

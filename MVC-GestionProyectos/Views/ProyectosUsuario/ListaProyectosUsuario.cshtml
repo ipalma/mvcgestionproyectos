@@ -1,0 +1,55 @@
+﻿@using System.Activities.Statements
+@using MVC_GestionProyectos.Models
+@using MVC_GestionProyectos.Seguridad
+@model IEnumerable<MVC_GestionProyectos.Models.Proyecto_Tarea_Grupo>
+
+@{
+    ViewBag.Title = "ListaProyectosUsuario";
+
+    var usr = User as PrincipalPersonalizado;
+    var usuProy = new Proyecto();
+}
+
+<section class="content-header">
+    <h1>
+        Mis Proyectos
+    </h1>
+</section>
+<section class="content">
+    <ul id="listWithHandle">
+        @foreach (var item in Model)
+        {
+            <li class="col-sm-4" style="float: left; list-style: none">
+                <div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading  my-handle" style="cursor: move;">
+                            <h4 class="">@Html.DisplayFor(model => item.Proyecto)</h4>
+
+                        </div>
+                        <div class="panel-body">
+                            @if (item.jefeGrupo == usr.MiCustomIdentity.id)
+                            {
+                                <span><b>Observaciones:</b> Soy el Jefe de Proyecto</span>
+                            }
+                        </div>
+                        <div class="panel-footer" style="text-align:center">
+                            <a href="@Url.Action("Index", "Tarea", new { id = item.idProyecto })">Ver tareas </a>  |
+                            <a href="@Url.Action("Details", "Proyecto", new { id = item.idProyecto })">Ver detalles del Proyecto</a>
+                            @*<a href="@Url.Action("ListadoUsuarios", "ProyectosUsuario", new { id = item.idProyecto })">+</a>*@
+                        </div>
+                    </div>
+                </div>
+
+            </li>
+        }
+    </ul>
+</section>
+    <script src="~/Scripts/Sortable.min.js"></script>
+    <script>
+        // List with handle
+        Sortable.create(listWithHandle, {
+            handle: '.my-handle',
+            animation: 450
+        });
+</script>
+ 

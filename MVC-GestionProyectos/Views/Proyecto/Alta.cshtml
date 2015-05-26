@@ -1,0 +1,90 @@
+﻿@model MVC_GestionProyectos.Models.Proyecto
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<section class="content-header">
+    <h1>
+        Alta Nueva
+        <small>Proyecto</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-briefcase"></i>Proyecto</a></li>
+        @*<li><a href="#">UI</a></li>*@
+        <li class="active">Nuevo proyecto</li>
+    </ol>
+</section>
+
+<!--Alta del proyecto-->
+@{
+    ViewBag.Title = "Alta";
+    }
+
+@using (Html.BeginForm("Alta","Proyecto", FormMethod.Post, new { enctype = "multipart/form-data"}))
+{
+    @Html.AntiForgeryToken()
+    <div class="panel-body">
+        <div class="col-sm-6">
+            <h3>Datos del Proyecto</h3>
+            <div class="form-group">
+                <p>Nombre del Proyecto:</p>
+                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control", placeholder = "Nombre" } })
+                @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <p>Descripción:</p>
+                @Html.TextAreaFor(model => model.descripcion, new { rows = 5, columns = 15, @class = "form-control", placeholder = "descripción" })
+                @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <p>Prioridad del proyecto</p>
+                <select name="id_prioridad_alta">
+                    <option value="0">Elige la Prioridad</option>
+                    @foreach (var valores in ViewBag.Prioridad)
+                    {
+                        <option value="@valores.id">@valores.nombre</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <p>Estado del proyecto</p>
+                <select name="id_estado_alta">
+                    <option value="0">Elige un Estado</option>
+                    @foreach (var y in ViewBag.EstadoProyecto)
+                    {
+                        <option value="@y.id">@y.nombre</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <h3>Fechas</h3>
+            <div class="form-group">
+                <p>Fecha de Inicio:</p>
+                @Html.EditorFor(model => model.fechaInicio, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.fechaInicio, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <p>Fecha Límite:</p>
+                @Html.EditorFor(model => model.fechaFin, new { htmlAttributes = new { @class = "form-control", } })
+                @Html.ValidationMessageFor(model => model.fechaFin, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <p>Fecha de Creación:</p>
+                @Html.EditorFor(model => model.fechaCreacion, new { htmlAttributes = new { @class = "form-control"} })
+                @Html.ValidationMessageFor(model => model.fechaCreacion, "", new { @class = "text-danger" })  
+            </div>           
+
+        </div>
+
+    </div>
+    <div class="form-group">
+        <div class="margin text-center">
+            <input type="submit" value="Crear" class="btn btn-primary" />
+        </div>
+
+    </div>
+
+        @Html.ActionLink("Regresar a Proyectos", "Index")
+}
+
+

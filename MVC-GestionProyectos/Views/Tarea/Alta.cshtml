@@ -1,0 +1,105 @@
+﻿@model MVC_GestionProyectos.Models.Tarea
+
+<link href="~/Content/css/iCheck/all.css" rel="stylesheet" />
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<section class="content-header">
+    <h1>
+        Alta de tarea en
+        <small>@Session["nombreProyecto"]</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-bar-chart-o"></i> Tareas</a></li>
+        @*<li><a href="#">UI</a></li>*@
+        <li class="active">Nueva tarea del Proyecto:  @Session["nombreProyecto"]</li>
+    </ol>
+</section>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="panel-body">
+
+        <div class="form-horizontal">
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+                    <br />
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.tiempoEstimado, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.tiempoEstimado, new { @type = "range", @min = "1", max = "100", oninput = "this.form.amountInput.value=this.value" })
+                    <input type="number" name="amountInput" min="0" max="100" id="xx" oninput="this.form.tiempoEstimado.value=this.value">
+                    <span> horas</span>
+                    @Html.ValidationMessageFor(model => model.tiempoEstimado)
+                    <br />
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
+                    <br />
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.idUsuarioAsignado, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("idUsuarioAsignado")
+                    @Html.ValidationMessageFor(model => model.idUsuarioAsignado, "", new { @class = "text-danger" })
+                    <br />
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.idPrioridad, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("idPrioridad")
+                    @Html.ValidationMessageFor(model => model.idPrioridad, "", new { @class = "text-danger" })
+                    <br />
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.comentarios, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.comentarios)
+                    @Html.ValidationMessageFor(model => model.comentarios, "", new { @class = "text-danger" })
+                    <br />
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-sm-12">
+
+        </div>
+
+    </div>
+
+    <div class="panel-footer">
+        <div class="row">
+            <div class="col-sm-4 col-sm-offset-4">
+                <button type="submit" class="btn bg-light-blue btn-block">Dar de alta</button>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    document.getElementById("xx").value = document.getElementById("tiempoEstimado").value;
+</script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

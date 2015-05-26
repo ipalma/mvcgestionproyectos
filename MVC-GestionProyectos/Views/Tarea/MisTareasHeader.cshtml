@@ -1,0 +1,42 @@
+﻿@model IEnumerable<MVC_GestionProyectos.Models.Tarea>
+
+<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+    <i class="fa fa-briefcase"></i>
+    <span class="label label-danger">@*@Model.Count()*@</span>
+</a>
+<ul class="dropdown-menu">
+    <li class="header">@*Tienes @Model.Count() Proyectos*@</li>
+    <li>
+        <!-- inner menu: contains the actual data -->
+        <ul class="menu">
+
+            <!-- Tareas  -->
+            @foreach (var item in Model)
+            {
+                <li>
+                    <a href="@Url.Action("Details", "Tarea", new { id = item.id })">
+                        <h3>
+                            @Html.DisplayFor(modelItem => item.nombre)
+                            <small class="pull-right" style="color: red"> tareas</small>
+                        </h3>
+                        <div class="progress xs">
+                            <div class="progress-bar progress-bar-aqua" style="width: " role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100">
+                                <span class="sr-only"> tareas</span>
+                         </div>
+                        </div>
+                    </a>
+                    <a style="color: #3c8dbc" href="">Ver tareas de </a>
+                    <!-- end task item -->
+                </li>
+
+
+
+            }
+
+
+        </ul>
+    </li>
+    <li class="footer">
+        <a href="@Url.Action("MisTareas", "Tarea")">Ir a Tareas</a>
+    </li>
+</ul>

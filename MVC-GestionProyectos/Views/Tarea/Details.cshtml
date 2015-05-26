@@ -1,0 +1,153 @@
+﻿@model MVC_GestionProyectos.Models.Tarea
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+<div>
+    <h4>Detalle de la tarea @ViewBag.nombreTarea</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaCreacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaCreacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaAsignacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaAsignacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tiempoEstimado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tiempoEstimado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.descripcion)
+        </dd>
+@*
+        <dt>
+            @Html.DisplayNameFor(model => model.idUsuarioAsignado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.idUsuarioAsignado)
+        </dd>
+
+        <dt>
+        @Html.DisplayNameFor(model => model.idProyecto)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.idProyecto)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.idGrupo)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.idGrupo)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.idEstado)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.idEstado)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.idPrioridad)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.idPrioridad)
+    </dd>
+*@
+        <dt>
+            @Html.DisplayNameFor(model => model.comentarios)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.comentarios)
+        </dd>
+
+        @*<dt>
+        @Html.DisplayNameFor(model => model.idUsuarioCreador)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.idUsuarioCreador)
+    </dd>
+        *@
+        <dt>
+            @Html.DisplayNameFor(model => model.nombreUsuarioAsignado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombreUsuarioAsignado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.nombreProyecto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombreProyecto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.nombreGrupo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombreGrupo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.nombreEstado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombreEstado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.nombrePrioridad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombrePrioridad)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Volver a listado de tareas", "Index", new { id = Model.idProyecto })
+</p>

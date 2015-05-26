@@ -1,0 +1,160 @@
+﻿@model MVC_GestionProyectos.Models.Proyecto     
+
+<section class="content-header">
+    <h1>Edición del Proyecto</h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-briefcase"></i> Proyecto</a></li>
+        <li><a href="#">Edición</a></li>
+        <li class="active">@Model.nombre</li> 
+    </ol>
+</section>
+     
+@using (Html.BeginForm("Edit","Proyecto", FormMethod.Post, new { enctype = "multipart/form-data"}))
+{
+    @Html.AntiForgeryToken()
+
+    <!--Edicion del proyecto-->
+    <div class="panel-body">
+        <div class="col-sm-4">
+            <h3>Proyecto</h3>
+            <small>Editar el Proyecto</small>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.id)
+            <div class="form-group">
+                Nombre de Proyecto
+                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control", placeholder = "Nombre" } })
+                @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <p>Descripción:</p>
+                @Html.TextAreaFor(model => model.descripcion, new { rows = 5, columns = 15, @class = "form-control", placeholder = "descripción" })
+                @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                Fecha Inicio Proyecto
+                <small>@Model.fechaInicio</small>
+                @Html.EditorFor(model => model.fechaInicio, new { htmlAttributes = new { @class = "form-control", placeholder = Model.fechaInicio } })
+                @Html.ValidationMessageFor(model => model.fechaInicio, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                Fecha Fin de Proyecto
+                <small>@Model.fechaFin</small>
+                @Html.EditorFor(model => model.fechaFin, new { htmlAttributes = new { @class = "form-control", placeholder = Model.fechaFin } })
+                @Html.ValidationMessageFor(model => model.fechaFin, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                Fecha de Creación
+                @Html.EditorFor(model => model.fechaCreacion, new { htmlAttributes = new { @class="form-control"}})
+                @Html.ValidationMessageFor(model => model.fechaCreacion, "", new { @class = "text-danger"})
+            </div>
+            <div class="form-group">
+                Prioridad del proyecto
+                <select name="id_prioridad">
+                    <option value="0">Elige la Prioridad</option>
+                    @foreach (var valores in ViewBag.Prioridad)
+                    {
+                        <option value="@valores.id">@valores.nombre</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                Estado del proyecto
+                <select name="id_estado">
+                    <option value="0">Elige un Estado</option>
+                    @foreach (var y in ViewBag.EstadoProyecto)
+                    {
+                        <option value="@y.id">@y.nombre</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <h3>Usuarios Participantes</h3>
+            <dl class="">
+                @*@foreach (var item in ViewBag.Usuarios)
+                {
+                    @*if (item.Proyecto_Tarea_Grupo.idProyecto == Model.id)
+                    {
+                        <dd>
+                            @if (item.foto == null)
+                            {
+                                <span class=" text-center glyphicon glyphicon-user"></span>
+                            }
+                            else
+                            {
+                                <img width="40" class="img-circle" src="~/img/FotoPerfilesUsuario/@item.foto" />
+                                <a href="@Url.Action("Details", "Usuario", new { id = item.id })"> @item.email</a>
+                            }
+
+                        </dd>
+                    }
+
+                }*@
+
+                @foreach (var item in Model.usuarios)
+                {
+                    <dd>
+                        @if (item.foto == null)
+                        {
+                            <span class=" text-center glyphicon glyphicon-user"></span>
+                        }
+                        else
+                        {
+                            <img width="40" class="img-circle" src="~/img/FotoPerfilesUsuario/@item.foto" />
+                            <a href="@Url.Action("Details", "Usuario", new { id = item.id })"> @item.email</a>
+                            if (item.numeroTareas > 0)
+                            {
+                                <a href="@Url.Action("EliminarDelListado", "ProyectosUsuario", new { idUsu = item.id, idProy = Model.id })" class="fa fa-times fa-2x text-red"></a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("EliminarDelListado", "ProyectosUsuario", new { idUsu = item.id, idProy = Model.id })" class="fa fa-times fa-2x text-red"></a>
+                            }
+                            
+                        }
+
+                    </dd>
+                }
+
+            </dl>
+
+        </div>
+
+        <div class="col-sm-4">
+            <h3>Usuarios Disponibles</h3>
+            <dl class="">
+                @foreach (var item in ViewBag.Usuarios)
+                {
+
+                    <dd id="usuario_@item.id">
+                        @if (item.foto == null)
+                        {
+                            <span class=" text-center glyphicon glyphicon-user"></span>
+                        }
+                        else
+                        {
+                            <input type="checkbox" value="@item.id" name="id_usuarios[]" class="icheckbox_minimal" />
+                            <img width="40" class="img-circle" src="~/img/FotoPerfilesUsuario/@item.foto" />
+                            <i>@item.email</i>
+                            <select name="id_grupos">
+                                <option value="0" selected="selected">Elige Grupo</option>
+                                @foreach (var x in ViewBag.GrupoProyecto)
+                                {
+                                    <option value="@x.id">@x.nombre</option>
+                                }
+                            </select>
+                        }
+                    </dd>
+                }
+            </dl>
+        </div>
+
+    </div>
+    <div class="form-group">
+        <div class="margin text-center">
+            <input type="submit" value="Guardar cambios" class="btn btn-primary" />
+        </div>
+    </div>
+    @Html.ActionLink("Regresar a Proyectos", "Index")
+
+}

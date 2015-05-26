@@ -1,0 +1,105 @@
+﻿@using MVC_GestionProyectos.Seguridad
+@model MVC_GestionProyectos.Models.Proyecto
+          
+
+@{
+    ViewBag.Title = "Details";
+        var usr = User as PrincipalPersonalizado;
+
+}
+
+<h2>Detalles del Proyecto</h2>
+
+    <hr />
+
+    <ol class="breadcrumb">
+        <li><a href="/ProyectosUsuario/ListaProyectosUsuario"><i class="fa fa-briefcase"></i> Proyectos</a></li>
+        <li><a href="#"> Detalle</a></li>
+        <li class="active">@Model.nombre</li>
+    </ol>
+    <div class="row">
+    <div class="col-xs-12">
+        <div class="box box-solid">
+            <div class="box-header">
+                <h3 class="box-title"></h3>
+            </div><!-- /.box-header -->
+            <div id="myBody" class="box-body">
+                <div class="row">
+                    <div class="col-sm-6">
+            <dl class="dl-horizontal">
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.fechaInicio)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.fechaInicio)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.fechaFin)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.fechaFin)
+                </dd>
+                
+                <dt>
+                    @Html.DisplayNameFor(model => model.fechaCreacion)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.fechaCreacion)
+                </dd>
+                
+                <dt>
+                    @Html.DisplayNameFor(model => model.descripcion)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.descripcion)
+                </dd>
+                
+                <dt>
+                    Tareas
+                </dt>
+
+                <dd>
+                    <a href="@Url.Action("Index", "Tarea", new { id = Model.id })">Ver tareas </a>
+                </dd>
+            </dl>
+                        <p>
+                            @if (usr.MiCustomIdentity.Proyecto_Tarea_Grupo.Where(o => o.idProyecto == Model.id).Any(o => o.idGrupo == 1))
+                            {
+
+                                @Html.ActionLink("Editar", "Edit", new { id = Model.id })}  |
+                            @Html.ActionLink("Volver al Listado", "Index")
+                        </p>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+            <dl class="dl-horizontal">
+
+                @foreach (var item in Model.usuarios)
+                {
+
+                    <dd>
+
+                        @if (item.foto == null)
+                        {
+                            <span class=" text-center glyphicon glyphicon-user"></span>
+                        }
+                        else
+                        {
+                            <img width="40" class="img-circle" src="~/img/FotoPerfilesUsuario/@item.foto" />
+                            <a href="@Url.Action("Details", "Usuario", new { id = item.id })"> @item.email</a>
+                        }
+
+                    </dd>
+                }
+            </dl>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+    </div><!-- /.col -->
+    </div>

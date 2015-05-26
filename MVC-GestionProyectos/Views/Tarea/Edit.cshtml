@@ -1,0 +1,239 @@
+﻿@model MVC_GestionProyectos.Models.Tarea
+
+<section class="content-header">
+    <h1>
+        Edicion de tareas
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">UI</a></li>
+        <li class="active">Icons</li>
+    </ol>
+</section>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="panel-body">
+        <div class="form-horizontal">
+            <h4>@ViewBag.nombreTarea</h4>
+
+            <hr />
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(model => model.id)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.nombre)
+                    @Html.ValidationMessageFor(model => model.nombre)
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.nombreProyecto, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.nombreProyecto, new { @disabled = "disabled" })
+                    @Html.ValidationMessageFor(model => model.nombreProyecto)
+                </div>
+            </div>
+
+
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.fechaCreacion, new {@class = "control-label col-md-2"})
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.fechaCreacion, new {@disabled = "disabled"})
+                        @Html.ValidationMessageFor(model => model.fechaCreacion)
+                    </div>
+                </div>*@
+
+            @*<div class="form-group">
+                @Html.LabelFor(model => model.fechaCreacion, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">*@
+            @Html.HiddenFor(model => model.fechaCreacion)
+            @*@Html.ValidationMessageFor(model => model.fechaCreacion)
+                    </div>
+                </div>*@
+
+            @*<div class="form-group">
+                @Html.LabelFor(model => model.fechaAsignacion, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">*@
+            @Html.HiddenFor(model => model.fechaAsignacion)
+            @*@Html.ValidationMessageFor(model => model.fechaAsignacion)
+                    </div>
+                </div>*@
+
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.tiempoEstimado, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.tiempoEstimado)<span> horas</span>
+                        @Html.ValidationMessageFor(model => model.tiempoEstimado)
+                    </div>
+                </div>*@
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.tiempoEstimado, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.tiempoEstimado, new { @type = "range", @min = "1", max = "100", oninput = "this.form.amountInput.value=this.value" })
+
+
+                    <input type="number" name="amountInput" min="0" max="100" id="xx" oninput="this.form.tiempoEstimado.value=this.value">
+                    <span> horas</span>
+                    @Html.ValidationMessageFor(model => model.tiempoEstimado)
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.descripcion)
+                    @Html.ValidationMessageFor(model => model.descripcion)
+                </div>
+            </div>
+
+            @*<div class="form-group">
+                @Html.LabelFor(model => model.idUsuarioAsignado, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">*@
+            @*@Html.HiddenFor(model => model.idUsuarioAsignado)*@
+            @*@Html.ValidationMessageFor(model => model.idUsuarioAsignado)
+                    </div>
+                </div>*@
+
+            @*<div class="form-group">
+                @Html.LabelFor(model => model.idProyecto, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">*@
+            @Html.HiddenFor(model => model.idProyecto)
+            @*@Html.ValidationMessageFor(model => model.idProyecto)
+                    </div>
+                </div>*@
+
+            @*<div class="form-group">
+                @Html.LabelFor(model => model.idGrupo, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">*@
+            @Html.HiddenFor(model => model.idGrupo)
+            @*@Html.ValidationMessageFor(model => model.idGrupo)
+                    </div>
+                </div>*@
+
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.idEstado, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.idEstado)
+                        @Html.ValidationMessageFor(model => model.idEstado)
+                    </div>
+                </div>*@
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.idEstado, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("idEstado")
+                    @Html.ValidationMessageFor(model => model.idEstado, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.idPrioridad, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.idPrioridad)
+                        @Html.ValidationMessageFor(model => model.idPrioridad)
+                    </div>
+                </div>*@
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.idPrioridad, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("idPrioridad")
+                    @Html.ValidationMessageFor(model => model.idPrioridad, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.comentarios, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.comentarios)
+                    @Html.ValidationMessageFor(model => model.comentarios)
+                </div>
+            </div>
+
+            @*<div class="form-group">
+                @Html.LabelFor(model => model.idUsuarioCreador, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">*@
+            @Html.HiddenFor(model => model.idUsuarioCreador)
+            @*@Html.ValidationMessageFor(model => model.idUsuarioCreador)
+                    </div>
+                </div>*@
+
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.nombreUsuarioAsignado, new {@class = "control-label col-md-2"})
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.nombreUsuarioAsignado)
+                        @Html.ValidationMessageFor(model => model.nombreUsuarioAsignado)
+                    </div>
+                </div>*@
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.idUsuarioAsignado, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("idUsuarioAsignado")
+                    @Html.ValidationMessageFor(model => model.idUsuarioAsignado, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+
+            @*<div class="form-group">
+                @Html.LabelFor(model => model.nombreGrupo, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">*@
+            @Html.HiddenFor(model => model.nombreGrupo)
+            @*@Html.ValidationMessageFor(model => model.nombreGrupo)
+                    </div>
+                </div>*@
+
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.nombreEstado, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.nombreEstado)
+                        @Html.ValidationMessageFor(model => model.nombreEstado)
+                    </div>
+                </div>*@
+
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.nombrePrioridad, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.nombrePrioridad)
+                        @Html.ValidationMessageFor(model => model.nombrePrioridad)
+                    </div>
+                </div>*@
+
+        </div>
+        <div class="col-sm-12">
+
+        </div>
+        <div>
+            @Html.ActionLink("Volver a listado de tareas", "Index", new { id = Model.idProyecto })
+        </div>
+
+    </div>
+    <div class="panel-footer">
+        <div class="row">
+            <div class="col-sm-4 col-sm-offset-4">
+                <button type="submit" class="btn bg-light-blue btn-block">Editar tarea</button>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+<script>
+    document.getElementById("xx").value = document.getElementById("tiempoEstimado").value;
+</script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

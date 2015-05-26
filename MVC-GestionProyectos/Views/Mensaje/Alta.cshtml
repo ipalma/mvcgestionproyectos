@@ -1,0 +1,28 @@
+﻿@using System.Activities.Expressions
+@using MVC_GestionProyectos.Models
+@model MVC_GestionProyectos.Models.Mensaje
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    <div class="box" style="background-color: #f4f4f4; border-top:none;border-bottom: none  ">
+        <div class="box-body ">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <label for="EnviadoA" style="font-weight: normal">Nombre Contacto: </label>
+                @Html.DropDownList("idDest", null, new { @style = "", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.idDest, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.TextAreaFor(model => model.contenido, new { rows = 5, columns = 15, @class = "form-control", placeholder = "Mensaje..." })
+                @Html.ValidationMessageFor(model => model.contenido, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="box-footer clearfix" style="background-color: #f4f4f4">
+                <input type="submit" value="Enviar" class="pull-right btn btn-primary" />
+            </div>
+        </div>
+    </div>
+
+
+}

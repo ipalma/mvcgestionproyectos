@@ -1,0 +1,59 @@
+﻿@model MVC_GestionProyectos.Models.Tarea
+
+@{
+    ViewBag.Title = "AltaNueva";
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+<section class="content-header">
+    <h1>
+        Añadir tarea al proyecto:
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-bar-chart-o"></i> Tareas</a></li>
+        @*<li><a href="#">UI</a></li>*@
+        <li class="active">Selección de proyecto</li>
+    </ol>
+</section>
+
+    <section class="content">
+    <div class="row">
+       
+        @foreach (var x in ViewBag.idProyectosDeEsteUsuario)
+        {
+
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                
+                <div class="small-box bg-aqua">
+                    <div class="inner">
+                        <h4>
+                            <a style="color: white" href="@Url.Action("AltaTareaProyecto", "Tarea", new { id = @x.id })"> @x.nombre  </a>
+                        </h4>
+
+                        <h5>
+                            Creado: @x.fechaInicio.ToString("dd MMM yyyy")
+                        </h5>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-ios7-briefcase-outline"></i>
+                    </div>
+                    <a href="@Url.Action("AltaTareaProyecto", "Tarea", new { id = @x.id })" class="small-box-footer">
+                        <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+
+            </div>
+
+
+        }
+
+    </div>
+    </section>
+    }
+          
+                
+
+                

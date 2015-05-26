@@ -1,0 +1,79 @@
+﻿@using System.Web.UI.WebControls
+@model IEnumerable<MVC_GestionProyectos.Models.Usuario>
+
+@{
+    ViewBag.Title = "Usuarios";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Nuevo Usuario", "Alta")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.apellido)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.password)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.foto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Habilidad)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.apellido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.password)
+            </td>
+            <td>
+                @if (item.foto == null)
+                {
+                    <span class=" text-center glyphicon glyphicon-user"></span>
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.foto)
+                }
+            </td>
+            <td>
+                <select clas="habilidades" style="width: 110px">
+                    <optgroup label="Habilidad">
+                        @foreach (var h in item.Habilidad)
+                        {
+                            <option disabled="disabled" id="@h.id">@h.nombre</option>
+                        }
+                    </optgroup>
+                </select>
+            </td>
+            <td>
+                <a href="@Url.Action("Edit", new { id = item.id })"><i class="fa fa-edit fa-2x text-primary"></i></a>
+                <a href="@Url.Action("Details", new { id = item.id })"><i class="fa fa-file-o fa-2x text-success"></i></a>
+                <a href="@Url.Action("Delete", new { id = item.id })"><i class="fa fa-times fa-2x text-danger"></i></a>
+            </td>
+        </tr>
+    }
+
+</table>

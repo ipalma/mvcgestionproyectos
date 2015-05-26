@@ -1,0 +1,199 @@
+﻿@model IEnumerable<MVC_GestionProyectos.Models.Tarea>
+
+@*@{
+    Layout = null;
+}*@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TodasLasTareas</title>
+    <style type="text/css">
+        /* show the move cursor as the user moves the mouse over the panel header.*/
+        #draggablePanelList .panel-heading {
+            cursor: move;
+        }
+    </style>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Nueva tarea", "Alta")
+    </p>
+    
+    <div class="container">
+        <ul id="listWithHandle">
+            @foreach (var item in Model)
+            {
+                <li class="col-sm-4" style="float: left; list-style: none">
+                    <div>
+                        <div class="panel panel-primary">
+                            <div class="panel-heading my-handle bg-light-blue" style="cursor: move;">
+                                <h4 style="display: inline-block">@Html.DisplayFor(modelItem => item.nombre)</h4>
+
+                                @switch (item.nombrePrioridad)
+                                {
+                                    case "urgente": <i class="badge bg-red pull-right"><small> @Html.DisplayFor(modelItem => item.nombrePrioridad)</small> </i>
+                                        break;
+                                    case "alta":<i class="badge bg-orange pull-right"><small> @Html.DisplayFor(modelItem => item.nombrePrioridad)</small> </i>
+                                        break;
+                                    case "normal":<i class="badge bg-green pull-right"><small> @Html.DisplayFor(modelItem => item.nombrePrioridad)</small> </i>
+                                        break;
+                                    case "baja":<i class="badge pull-right"><small> @Html.DisplayFor(modelItem => item.nombrePrioridad)</small> </i>
+                                        break;
+                                    case "minima":<i class=" pull-right"><small> @Html.DisplayFor(modelItem => item.nombrePrioridad)</small> </i>
+                                        break;
+                                }
+                                <br />
+
+                            </div>
+                            <div class="panel-body">
+                                @Html.DisplayFor(modelItem => item.descripcion)
+                            </div>
+                            <div class="panel-footer">
+                                @Html.ActionLink("Editar", "Edit", new { id = item.id }) |
+                                @Html.ActionLink("Detalle", "Details", new { id = item.id }) |
+                                @Html.ActionLink("Borrar", "Delete", new { id = item.id })
+                                <small class=" text-light-blue pull-right">@Html.DisplayFor(modelItem => item.fechaCreacion)</small>
+                            </div>
+                        </div>
+                    </div>
+
+                </li>
+            }
+        </ul>
+    </div>
+    <script src="~/Scripts/Sortable.min.js"></script>
+    <script>
+        // List with handle
+        Sortable.create(listWithHandle, {
+            handle: '.my-handle',
+            animation: 450
+        });
+    </script>
+    
+    <hr/>
+    <hr/>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fechaCreacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fechaAsignacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tiempoEstimado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idUsuarioAsignado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idProyecto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idGrupo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idEstado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idPrioridad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.comentarios)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idUsuarioCreador)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nombreUsuarioAsignado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nombreProyecto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nombreGrupo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nombreEstado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nombrePrioridad)
+            </th>
+            <th></th>
+        </tr>
+    
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fechaCreacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fechaAsignacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tiempoEstimado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.idUsuarioAsignado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.idProyecto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.idGrupo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.idEstado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.idPrioridad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.comentarios)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.idUsuarioCreador)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nombreUsuarioAsignado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nombreProyecto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nombreGrupo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nombreEstado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nombrePrioridad)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.id })
+                </td>
+            </tr>
+        }
+    
+    </table>
+
+</body>
+</html>

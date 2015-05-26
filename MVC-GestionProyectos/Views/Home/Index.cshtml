@@ -1,0 +1,177 @@
+﻿
+@using System.Web.Razor.Parser.SyntaxTree
+@using MVC_GestionProyectos.Models
+@using MVC_GestionProyectos.Seguridad
+@using MVC_GestionProyectos.Servicios
+
+@{
+    ViewBag.Title = "Home Page";
+
+}
+
+@{
+
+    var usr = User as PrincipalPersonalizado;
+    var usuProy = new Proyecto();
+
+    var proyectos = ViewBag.BuscarProyectos;
+}
+
+<section class="content-header">
+
+        <h1>
+            Inicio
+        </h1>
+        @*<ol class="breadcrumb">
+
+        </ol>*@
+    </section >
+<section class="content">
+    <div class="row">
+
+        <div class="col-md-4">
+            <!-- Primary box -->
+            <div class="box box-solid box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">Mis Contactos</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-primary btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        <button class="btn btn-primary btn-sm" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="box-body slimScrollDiv" style="position:relative; overflow:auto; width:auto; height:300px;">
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr>
+                                    <th>Foto</th>
+                                    <th>Nombre</th>
+                                    <th>E-mail</th>
+                                </tr>
+                                
+                                @{ var elegidos = new List<int>(); }
+                                
+                                    @foreach (var x in usr.MiCustomIdentity.Proyecto_Tarea_Grupo.Select(item => item.idProyecto).Distinct())
+                                    {
+                                        var servicioP = DependencyResolver.Current.GetService<IServicios<Proyecto>>();
+                                        usuProy = servicioP.Get(x);
+                                        
+                                        foreach (var u in usuProy.usuarios)
+                                        {
+                                            if (elegidos.Contains(u.id)|| u.id == usr.MiCustomIdentity.id)
+                                            {
+                                                continue;
+                                            }
+                                            elegidos.Add(u.id);
+                                            <tr>
+                                                <td><img width="40" class="img-circle" src="~/img/FotoPerfilesUsuario/@u.foto" /></td>
+
+                                                <td>
+                                                    @u.nombre
+                                                </td>
+                                                <td>@u.email </td>
+                                            </tr>
+                                        }
+                                    }
+
+
+                               </tbody>
+                        </table>
+
+                    </div><!-- /.box -->
+                </div><!-- /.col -->
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <!-- Primary box -->
+            <div class="box box-solid box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">Mis Proyectos</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-primary btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        <button class="btn btn-primary btn-sm" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box">
+                    
+                    <div class="box-body slimScrollDiv" style="position:relative; overflow:auto; width:auto; height:300px;">
+                    <table class="table table-striped">
+                            <tbody>
+                                <tr>
+                                    <th style="width: 30%">Nombre</th>
+                                    <th>Fecha Creacion</th>
+                                    <th>Fecha fin</th>
+                                </tr>
+                                @foreach (var x in usr.MiCustomIdentity.Proyecto_Tarea_Grupo.Select(item => item.idProyecto).Distinct())
+                                {
+                                    var servicioP = DependencyResolver.Current.GetService<IServicios<Proyecto>>();
+                                    usuProy = servicioP.Get(x);
+                                    <tr>
+                                        <td style="width: 30%">@usuProy.nombre</td>
+                                        <td> @usuProy.fechaCreacion.ToString("dd MMM yyyy")</td>
+                                        <td>@usuProy.fechaFin.ToString("dd MMM yyyy")</td>
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div><!-- /.box -->
+                </div><!-- /.col -->
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <!-- Primary box -->
+            <div class="box box-solid box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">Mis Tareas</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-primary btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        <button class="btn btn-primary btn-sm" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="box-body slimScrollDiv" style="position:relative; overflow:auto; width:auto; height:300px;">
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Asignada</th>
+                                    <th>Tiempo estimado</th>
+                                </tr>
+                                @foreach (var x in usr.MiCustomIdentity.Proyecto_Tarea_Grupo)
+                                {
+
+                                    foreach (var i in x.Tarea)
+                                    {
+                                        <tr>
+                                            <td>@i.nombre</td>
+                                            <td>@i.fechaAsignacion.Value.ToString("dd MMM yyyy")</td>
+                                            <td>@i.tiempoEstimado Dias</td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+
+
+
+                    </div><!-- /.box -->
+                </div><!-- /.col -->
+            </div>
+        </div>
+    </div>        
+</section>
+
+<script>
+    $(document).ready(function () {
+        
+    });
+
+    (function() {
+
+    })();
+</script>

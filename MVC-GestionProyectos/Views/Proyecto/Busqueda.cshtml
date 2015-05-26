@@ -1,0 +1,25 @@
+﻿@using (Html.BeginForm("Index", "Proyecto", FormMethod.Post, new { nombre = "Busqueda", onsubmit = "return limpiar()" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+
+        <input type="search" id="nombre" name="Busqueda" placeholder="Nombre" />
+        <button type="submit" id="btnBuscar" class="btn btn-primary"> Buscar</button>
+        
+        <a class="btn btn-primary" href="@Url.Action("Index", "Proyecto")">Mostrar Todos</a>
+        
+        <a href="@Url.Action("Index", "Proyecto", new { nombre = "Gusano" })">Ver tareas </a>
+
+    </div>
+}
+<script>
+    @*function limpiar() {
+        var x = $("#datoBusqueda").val();
+        if (x == "") {
+            window.Location.href(@Url.Action("Index", "Usuario"));
+        }
+        return true;
+    }*@
+</script>

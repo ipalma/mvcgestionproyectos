@@ -1,0 +1,51 @@
+﻿@model IEnumerable<MVC_GestionProyectos.Models.Mensaje>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.idRem)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fotoRem)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.idDest)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fecha)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.contenido)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.idRem)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fotoRem)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.idDest)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fecha)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.contenido)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

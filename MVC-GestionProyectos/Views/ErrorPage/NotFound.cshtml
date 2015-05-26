@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "Page Not Found";
+}
+
+<section class="content-header">
+    <h1>
+        Estamos creciendo día a día..
+    </h1>
+    <ol class="breadcrumb">
+     </ol>
+</section>
+<section class="content">
+    <div class="error-page">
+        <h2 class="headline text-info"> 404</h2>
+        <h3><i class="fa fa-warning text-yellow"></i> Enlace no disponible
+        </h3>
+
+    </div>
+
+    <div class="error-page">
+        <p>
+            Lo siento, pero no podemos dirigirte a: <b>@HttpContext.Current.Request.Url.AbsoluteUri.Split('=').Last()</b>
+        </p>
+        @if (ViewBag.ReferrerUrl != null)
+        {
+            <p>Volver a la <a href="@ViewBag.ReferrerUrl">página anterior.</a>.</p>
+        }
+
+        @* Error page must be longer than 512 bytes for IE and Chrome to show it.
+            So add padding in case we're short. *@
+        @(new string(' ', 512))
+
+
+
+    </div>
+
+
+
+
+</section>
+
+
+
+
+

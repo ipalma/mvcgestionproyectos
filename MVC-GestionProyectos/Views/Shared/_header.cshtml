@@ -1,0 +1,287 @@
+﻿
+@using MVC_GestionProyectos.Models
+@using MVC_GestionProyectos.Seguridad
+@using MVC_GestionProyectos.Servicios
+
+@{
+
+    var usr = User as PrincipalPersonalizado;
+    var usuProy = new Proyecto();
+    var usuMensaje = new Mensaje();
+}
+@{
+    ViewBag.Title = "ListaProyectosUsuario";
+}
+
+
+@if (User.Identity.IsAuthenticated)
+{
+    <header class="header">
+
+    @*@System.Web.HttpContext.Current.Application["OnlineUsers"]*@
+
+        <a href="@Url.Action("Index", "Home")" class="logo">
+            JECT-PRO
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation">
+            <!-- Sidebar toggle button-->
+            <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <div class="navbar-right">
+                <ul class="nav navbar-nav">
+                    <!-- Messages: style can be found in dropdown.less-->
+                    <li class="dropdown messages-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-envelope"></i>
+                            <span class="label label-success">@usr.MiCustomIdentity.Mensaje.Count</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">Tienes @usr.MiCustomIdentity.Mensaje.Count mensajes
+                            <small id="accionMensajes" class="pull-right text-light-blue"></small>
+                            </li>
+                            <li>
+                                <!-- inner menu: contains the actual data -->
+                                <ul class="menu">
+                                    @{
+                                        var mensajes = usr.MiCustomIdentity.Mensaje.ToList();
+                                        mensajes.Reverse();
+                                    }
+                                    @foreach (var p in mensajes)
+                                    {
+                                    <li>
+                                        <!-- start message -->
+                            <a id="@p.Id" class="pull-left" style="width: 93%;" href="@Url.Action("Index", "Mensaje", new {id = p.Id})">
+                                            <div class="pull-left">
+                                    <img src="~/img/FotoPerfilesUsuario/@p.fotoRem" class="img-circle" alt="User Image"/>
+                                            </div>
+                                            <h4>
+                                                <span>@p.nombreRem</span>
+                                                <small><i class="fa fa-clock-o"></i>@p.fecha</small>
+                                            </h4>
+                                            <p>@p.contenido</p>
+                                        </a>
+                                        <span class="pull-right controlMessage" style="width: 7%; padding-right: 5px;">
+                                            <a class="pull-right fa fa-close text-red" value="Eliminar" href="@Url.Action("Delete", "Mensaje", new {id = p.Id})"></a>
+                                            <a class="pull-right fa fa-eye text-yellow leido" value="Marcar como Leido" padre="@p.Id" href="#"></a>
+                                            <a class="pull-right fa fa-mail-reply text-green" value="Responder"  href="@Url.Action("Index", "Mensaje", new {idrem = p.idRem, iddest = p.idDest})"></a>
+                                        </span>
+                        </li><!-- -->
+                                    }
+                                    <script>
+                        $(function() {
+
+                            $('.controlMessage a').mouseenter(function() {
+                                                $(this).addClass("text-light-blue");
+                                                var aux = $(this).attr("value");
+                                                $('#accionMensajes').html(aux);
+                                            });
+                            $('.controlMessage a').mouseleave(function() {
+                                                $(this).removeClass("text-light-blue");
+                                                $('#accionMensajes').html('');
+                                            });
+
+                            $('.leido').click(function() {
+                                var idleido = '#' + $(this).attr("padre");
+                                $(idleido).css({ "text-decoration": "line-through", "color": "#888" });
+                                                //$(this).parent().parent().css("background", "grey");
+                                            });
+                                        })
+                                    </script>
+                                </ul>
+                            </li>
+                            <li class="footer"><a href="@Url.Action("Index", "Mensaje")">Ver todos los Mensajes</a></li>
+                        </ul>
+                    </li>
+                    <!--PROYECTOS DANIEL-->
+                    <!-- Tasks: style can be found in dropdown.less -->
+                    <li class="dropdown tasks-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-briefcase"></i>
+                            <span class="label bg-@usr.MiCustomIdentity.Proyecto_Tarea_Grupo.Count">@usr.MiCustomIdentity.Proyecto_Tarea_Grupo.Count </span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">Tienes @usr.MiCustomIdentity.Proyecto_Tarea_Grupo.Count Proyectos</li>
+                            <li>
+                                <!-- inner menu: contains the actual data -->
+                                <ul class="menu">
+                                    
+                    <!-- PROYECTOS -->
+                                    
+                                    @foreach (var x in usr.MiCustomIdentity.Proyecto_Tarea_Grupo.Distinct())
+                                    {
+                                        var _servicioP = DependencyResolver.Current.GetService<IServicios<Proyecto>>();
+                                        usuProy = _servicioP.Get(x.idProyecto);
+                                        <li>
+                            <a href="@Url.Action("Details", "Proyecto", new {id = x.idProyecto})">
+                                                <h3>
+                                                    @usuProy.nombre
+
+                                    <small class="pull-right" style="color: red">Tienes @x.Tarea.Select(item => item.id).Count() tareas</small>
+
+                                                </h3>
+                                                <div class="progress xs">
+                                    <div class="progress-bar progress-bar-aqua" style="width: @x.Tarea.Select(item => item.id).Count()0%" role="progressbar" aria-valuenow="@x.Tarea.Select(item => item.id).Count()0" aria-valuemin="0" aria-valuemax="100">
+                                                        <span class="sr-only"></span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                            <a style="color: #3c8dbc" href="@Url.Action("Index", "Tarea", new {id = x.idProyecto})">Ver tareas </a>
+                                            <!-- end task item -->
+                                        </li>
+
+                                    }
+                                </ul>
+                            </li>
+                            <li class="footer">
+                                <a href="@Url.Action("ListaProyectosUsuario", "ProyectosUsuario")">Ir a proyectos</a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+
+                    <!-- Tasks: style can be found in dropdown.less -->
+                    <li class="dropdown tasks-menu">
+                        
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-bar-chart-o"></i>
+                            <span class="label bg-@usr.MiCustomIdentity.contTareas">@usr.MiCustomIdentity.contTareas</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">Tienes @usr.MiCustomIdentity.contTareas tareas</li>
+                            <li>
+                                <!-- inner menu: contains the actual data -->
+                                <ul class="menu">
+                                    
+                    <!-- Tareas -->
+                                    @foreach (var x in usr.MiCustomIdentity.Proyecto_Tarea_Grupo)
+                                    {
+
+                                        foreach (var i in x.Tarea)
+                                        {
+                                            
+                                            <li>
+                                                <div>
+                                                    <small class="pull-right" style="color: red">Asignada: @i.fechaAsignacion.Value.ToString("dd MMM yyyy") &nbsp; </small>
+                                                </div>
+                                                <a href="#" style="color: black">
+                                                    @*<i class="ion ion-ios7-people info"></i>*@
+                                                    Tarea: @i.nombre
+                                                </a>
+                                            
+                                                <!-- end task item -->
+                                            </li>
+                                        }
+
+                                    }
+
+                                    
+
+                                </ul>
+                            </li>
+                            <li class="footer">
+                <a href="@Url.Action("MisTareas", "Tarea", new {id = usr.MiCustomIdentity.id})">Ir a Tareas</a>
+                            </li>
+                        </ul>
+                        
+                    </li>
+                    
+                    <!-- User Account: style can be found in dropdown.less -->
+                    <li class="dropdown user user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="glyphicon glyphicon-user"></i>
+                            <span>@User.Identity.Name<i class="caret"></i></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- User image -->
+                            <li class="user-header bg-light-blue">
+                <img src="~/img/FotoPerfilesUsuario/@usr.MiCustomIdentity.foto" class="img-circle" alt="User Image"/>
+                                <p>
+                                    @User.Identity.Name
+                                    <small><span>@usr.MiCustomIdentity.email</span></small>
+                                    <i class="caret"></i>
+                                    @*<small>Member since Nov. 2012</small>*@
+                                </p>
+                            </li>
+                            <!-- Menu Body -->
+                            <li class="user-body">
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Followers</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Sales</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Friends</a>
+                                </div>
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-left">
+                    <a href='@Url.Action("Edit", "Usuario", new {id = @usr.MiCustomIdentity.id})' class="btn btn-default btn-flat">Editar mi Perfil</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href='@Url.Action("LogOut", "LoginUsuario")' class="btn btn-default btn-flat">Salir</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+}
+else
+{
+    <header class="header">
+
+        <a href="@Url.Action("Index", "Home")" class="logo">
+            JECT-PRO
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation">
+            <!-- Sidebar toggle button-->
+            <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <div class="navbar-right">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown messages-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-envelope"></i>
+                        </a>
+                    </li>
+                    <li class="dropdown notifications-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-warning"></i>
+                        </a>
+                    </li>
+                    <li class="dropdown tasks-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-briefcase"></i>
+                        </a>
+                    </li>
+                    <li class="dropdown tasks-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-tasks"></i>
+                        </a>
+                    </li>
+                    <li class="dropdown user user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="glyphicon glyphicon-user"></i>
+                            <span> - Usuario - <i class="caret"></i></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+}
+

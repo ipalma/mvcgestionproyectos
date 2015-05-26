@@ -1,0 +1,113 @@
+﻿@using System.Collections.Specialized
+@using System.Web.UI.WebControls
+@using MVC_GestionProyectos.Seguridad
+@model IEnumerable<MVC_GestionProyectos.Models.Usuario>
+
+@{
+    ViewBag.Title = "Usuarios";
+    var usr = User as PrincipalPersonalizado;
+
+    //Layout = null;
+    
+}
+
+<section class="content-header">
+    <h1>
+        Mis Contactos
+        <small></small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa  fa-users"></i>  Usuarios</a></li>
+        @*<li><a href="#">Mis contactos</a></li>*@
+        <li class="active">Mis contactos</li>
+    </ol>
+</section>
+
+@Html.Partial("Busqueda")
+
+@*<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>*@
+
+<section class="content">
+    <div class="row">
+
+        @foreach (var item in Model)
+        {
+      
+        <div class="col-md-4">
+        <div class="box box-primary">
+            <div class="box-header" data-toggle="tooltip" title="" data-original-title="Header tooltip">
+                <h3 class="box-title"><b>@Html.DisplayFor(modelItem => item.nombre)</b></h3>
+                @*<div class="box-tools pull-right">
+                    <button class="btn btn-primary btn-xs" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>*@
+            </div>
+        <div class="box-body" style="display: block;">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>Apellido:</td>
+                        <td>@Html.DisplayFor(modelItem => item.apellido)</td>
+                        <td rowspan="3" style="vertical-align:inherit">
+                            <div class="icon">
+                                @if (item.foto == null)
+                                {
+                                    <i class="glyphicon-user"></i>
+                                }
+                                else
+                                {
+                                    <img width="70" class="img-circle zoom" src="~/img/FotoPerfilesUsuario/@Html.DisplayFor(modelItem => item.foto)" />
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Email:</td>
+                        <td>@Html.DisplayFor(modelItem => item.email)</td>
+                    </tr>
+                    <tr>
+                        <td>Habilidades:</td>
+                        <td>
+                            <select class="Habilidad" style="width: 110px">
+                                <optgroup label="Habilidad">
+                                    @foreach (var h in item.Habilidad)
+                                    {
+                                        <option disabled="disabled" id="@h.id">@h.nombre</option>
+                                    }
+                                </optgroup>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+                
+        </div><!-- /.box-body -->
+        <div class="box-footer" style="display: block; text-align: center">
+            @if (usr.MiCustomIdentity.id == item.id)
+            {
+                <a href="@Url.Action("Edit", new {id = item.id})"><i class="fa fa-edit fa-2x text-primary"></i></a>
+            }
+            <a href="@Url.Action("Details", new {id = item.id})"><i class="fa fa-file-o fa-2x text-success"></i></a>
+
+            @if (usr.MiCustomIdentity.id == item.id)
+            {
+
+                <a href="@Url.Action("Delete", new {id = item.id})"><i class="fa fa-times fa-2x text-danger"></i></a>
+            }
+        </div><!-- /.box-footer-->
+    </div>
+        
+    </div>
+
+    }
+    </div>
+    </section>
+
+}
+
+

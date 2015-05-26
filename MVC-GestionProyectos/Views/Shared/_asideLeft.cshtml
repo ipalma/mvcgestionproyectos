@@ -1,0 +1,214 @@
+﻿@using MVC_GestionProyectos.Controllers
+@using MVC_GestionProyectos.Models
+@using MVC_GestionProyectos.Seguridad
+@using MVC_GestionProyectos.Servicios
+@*using System.Security.Principal;*@
+
+@{
+
+    var usr = User as PrincipalPersonalizado;
+    var usuProy = new Proyecto();
+  
+}
+
+
+@if (User.Identity.IsAuthenticated)
+{
+
+    @*left-side sidebar-offcanvas collapse-left*@
+    <aside class="left-side sidebar-offcanvas">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+            <!-- Sidebar user panel -->
+            <div class="user-panel">
+                <br/>
+                <div class="pull-left image">
+                    @*<a href="Usuario/Details/@usr.MiCustomIdentity.id">*@
+                    <a href='@Url.Action("Details", "Usuario", new {id = @usr.MiCustomIdentity.id})'>
+                        <img src="~/img/FotoPerfilesUsuario/@usr.MiCustomIdentity.foto" width="60" class="img-circle" alt="User Image"/>
+                    </a>
+                </div>
+                <div class="pull-left info">
+                    <p>@User.Identity.Name</p>
+                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                </div>
+                <br/>   
+                <div id="ProyetoActual" style="float: left"></div>
+            </div>
+            <br />
+            @*select para seleccionar proyectos del usuario autenticado con la app *@
+            @*<div class="text-center" style=" padding: 0px 10px 10px 10px; background: #367FA9; color: #F4F4F4;">
+                <i style=" margin: auto;">Proyecto</i>
+                <select id="miProyectoActual" class="form-control" style="border-style: none;">
+                    <option disabled="disabled" selected="selected">  </option>
+
+                    @foreach (var x in @usr.MiCustomIdentity.Proyecto_Tarea_Grupo.Select(item => item.idProyecto).Distinct())
+                    {
+                        var _servicioP = DependencyResolver.Current.GetService<IServicios<Proyecto>>();
+                        usuProy = _servicioP.Get(@x);
+                        <option value="@usuProy.nombre">@usuProy.nombre</option>
+                    }
+                </select>
+                <script>
+                    function proyActual() {
+                        var pr = $( "#miProyectoActual" ).val();
+                        $("#ProyetoActual").html("<i>Proyecto:</i> " + pr);
+                    }
+                    $("#miProyectoActual").change(proyActual);
+                </script>
+
+            </div>*@
+
+            <!-- /.search form -->
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <ul class="sidebar-menu">
+                <li class="active">
+                    <a href='@Url.Action("Index", "Home")'>
+                        <i class="fa fa-dashboard"></i> <span>Inicio</span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa  fa-users"></i>
+                        <span>Usuarios</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href='@Url.Action("Index", "Usuario")'><i class="fa fa-angle-double-right"></i> Mis Contactos</a></li>
+                        <li><a href='@Url.Action("Alta", "Usuario")'><i class="fa fa-angle-double-right"></i> Nuevo Usuario</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-briefcase"></i>
+                        <span>Proyectos</span>
+                        <small class="badge pull-right bg-@usr.MiCustomIdentity.Proyecto_Tarea_Grupo.Count">@usr.MiCustomIdentity.Proyecto_Tarea_Grupo.Count</small>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href='@Url.Action("Index", "Proyecto")'><i class="fa fa-angle-double-right"></i> Todos los proyectos</a></li>
+                        <li><a href='@Url.Action("ListaProyectosUsuario", "ProyectosUsuario")'><i class="fa fa-angle-double-right"></i> Mis proyectos</a></li>
+                        <li><a href='@Url.Action("Alta", "Proyecto")'><i class="fa fa-angle-double-right"></i> Nuevo proyecto</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-bar-chart-o"></i>
+                        <span>Tareas</span>
+                        <small class="badge pull-right bg-@usr.MiCustomIdentity.contTareas">@usr.MiCustomIdentity.contTareas</small>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="@Url.Action("TodasLasTareas", "Tarea")"><i class="fa fa-angle-double-right"></i> Todas las tareas</a></li>
+                        <li><a href="@Url.Action("MisTareas", "Tarea", new {id = @usr.MiCustomIdentity.id})"><i class="fa fa-angle-double-right"></i> Mis tareas</a></li>
+                        <li><a href="@Url.Action("AltaNueva", "Tarea")"><i class="fa fa-angle-double-right"></i> Nueva tarea</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-th"></i>
+                        <span>¡Proximamente!</span> 
+                        <small class="badge pull-right bg-green">new</small>
+                    </a>
+                </li>
+                <li class="treeview" style="border-top: 2px solid #c1c1c1; border-bottom: 2px solid #c1c1c1;">
+                    <a href="#">
+                        <i class="fa fa-envelope"></i>
+                        <span>Enviar Mensaje Directo</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        @Html.Action("Alta", "Mensaje")
+                    </ul>
+                </li>
+            </ul>
+            @*maicol*@
+            <section style="width: 100%; border-radius: 0px; ">
+                <div class="box box-solid" style="border-radius: 0px;">
+                    <div class="box-header ui-sortable-handle" style="background:#f9f9f9;">
+                        <i class="fa fa-calendar"></i>
+                        <!-- tools box -->
+                        <div class="pull-right box-tools">
+                            <button class="btn btn-success btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                            <button class="btn btn-success btn-sm" data-widget="remove"><i class="fa fa-times"></i></button>
+                        </div><!-- /. tools -->
+                    </div><!-- /.box-header -->
+                    <div class="box-body no-padding">
+                        <!--The calendar -->
+                        <div id="calendar">
+                            <div class="datepicker datepicker-inline">
+                                <div class="datepicker-days" style="display: block;">
+                                    <table class="table table-condensed table-responsive">
+                                        <thead>
+                                            <tr>
+                                                <th class="prev" style="visibility: visible;">«</th>
+                                                <th colspan="5" class="text-center">Febrero 2015</th>
+                                                <th class="next" style="visibility: visible;">»</th>
+                                            </tr>
+                                            <tr>
+                                                <th class="dow">Do</th>
+                                                <th class="dow">Lu</th>
+                                                <th class="dow">Ma</th>
+                                                <th class="dow">Mi</th>
+                                                <th class="dow">Ju</th>
+                                                <th class="dow">Vi</th>
+                                                <th class="dow">Sa</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="day">1</td>
+                                                <td class="day">2</td>
+                                                <td class="day">3</td>
+                                                <td class="day">4</td>
+                                                <td class="day">5</td>
+                                                <td class="day">6</td>
+                                                <td class="day">7</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="day">8</td>
+                                                <td class="day">9</td>
+                                                <td class="day">10</td>
+                                                <td class="day">11</td>
+                                                <td class="day">12</td>
+                                                <td class="day">13</td>
+                                                <td class="day">14</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="day">15</td>
+                                                <td class="day">16</td>
+                                                <td class="day">17</td>
+                                                <td class="day">18</td>
+                                                <td class="day">19</td>
+                                                <td class="day">20</td>
+                                                <td class="day">21</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="day">22</td>
+                                                <td class="day">23</td>
+                                                <td class="day">24</td>
+                                                <td class="day">25</td>
+                                                <td class="day">26</td>
+                                                <td class="day">27</td>
+                                                <td class="day">28</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- /.box-body -->
+                </div>
+
+            </section>
+            @*.maicol*@
+    
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+
+}
+else
+{
+    <aside class="left-side sidebar-offcanvas"></aside>
+}
